@@ -4,7 +4,7 @@ module.exports = function (app, db) {
       if (opts.whitelist && opts.whitelist(req)) return next()
       opts.lookup = Array.isArray(opts.lookup) ? opts.lookup : [opts.lookup]
       opts.onRateLimited = typeof opts.onRateLimited === 'function' ? opts.onRateLimited : function (req, res, next) {
-        res.status(429).send('Rate limit exceeded')
+        res.status(429).json({message: 'You are being rate limited!', status: 429})
       }
       var lookups = opts.lookup.map(function (item) {
         return item + ':' + item.split('.').reduce(function (prev, cur) {
